@@ -1,5 +1,6 @@
 # Upwall-demo
-Code samples and demo reels for Upwall
+Code samples and demo reels for Upwall.
+The playable demo is in Playable Demo/Upwall.exe
 
 This is an indefinitely suspended, half-finished Unity game.
 It was about climbing upwards using only a grappling hook for movement.
