@@ -1,0 +1,66 @@
+Upwall uses a structure I am calling state modularity.
+This allows for arbitrary combinations of functions and keeps relevant code blocks grouped.
+In other words, the behaviours can be mixed and matched. 'if' statements could do the same, but every new behaviour would be all over the file.
+Inheritance can also be used to achieve a similar results, so long as the functions are being kept in distinct groups. Whether inheritance would be more or less clean depends on the project at hand. 
+
+Howto:
+Implement modularity on function-level by utilizing delegates.
+Combine function-level modularity with state machine pattern for independently modular state behaviours.
+
+Example (heavily redacted):
+
+public class HookScripts : MonoBehaviour{
+	// sample delegate declaration
+	delegate void HookSetup();
+	HookSetup hookSetup;
+
+	// state checks.
+	int hookState = HOOK_SETUP;
+	const int HOOK_SETUP = 1;
+	const int HOOK_IDLE = 2;
+	const int HOOK_CHARGING = 3;
+
+
+	// HookOrigin - base hook
+	void HookOriginEquip(){
+		hookSetup = HookOriginSetup;
+		hookCharging = HookOriginCharging;
+		hookFiring = HookOriginFiring;
+	}
+	
+	void HookBaseSetup(){
+		PlayReload(suppress: true);
+		StateChange(HOOK_RESET);
+	}
+	
+	
+	// hook "greathook". a hook that goes out faster, retracts slower
+	void HookGreathookEquip(){
+		// uses a different setup.
+		hookSetup = HookGreathookSetup;
+
+		// resuses origin hook animations
+		hookCharging = HookOriginCharging;
+		hookFiring = HookOriginFiring;
+	}
+	
+	void HookGreathookSetup(){
+		firingSpeed = 27f;
+		collReturnDelay = 3f;
+		returnSpeedBase = 2f;
+		returnSpeedTick = 0.05f;
+		chargeTick = 3f;
+		chargeT1 = 120f;
+		wielder.SetReelMode(Const.REEL_DIRECT);
+		HookBaseSetup();
+		Debug.Log("greathook equipped");
+	}
+	
+}
+
+Explanation:
+HookGreathookEquip() demonstrates that objects are able to use different sets of functions with this pattern.
+This allows for entirely different behaviours being mixed and matched in exponential scale. This is useful in a roguelike formula.
+
+Although if statements could be used instead, they would be all over the file. Every new set of functions would require adding an if statement to every state, creating bloat.
+In comparison, all of the HookGreathook details can be kept in one subsection (or even in a separate file as a child class). 
