@@ -8,6 +8,7 @@ Gameplay videos are available in base directory.
 Files copied verbatim from private project.
 
 The project contains many of the base features shared between games. Specifically, this covers options such as audio, main menu, pause, control rebinding, language, fullscreen, and save/load. Aside from options, some interactable UI elements are also demonstrated. All of these features listed are reusable (modular).
+Controller support and mobile controls are implemented. The demo will switch to your input mode on prompt.
 
 Personal Unity Project in C#
 Developer, Designer, Artist
